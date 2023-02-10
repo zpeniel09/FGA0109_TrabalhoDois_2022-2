@@ -7,17 +7,17 @@ O repositório principal desse segundo trabalho da disciplina de Fundamentos de 
 
 Na pasta raiz utilize o comando:
 ```
-make
-```
-Depois execute o binário gerado. Para isso, pode-se utilizar o comando a seguir na pasta raiz:
-```
-bin/bin
+make run
 ```
 
 Sendo que está bem interativa para finalizar, digite o comando a seguir: 
 
 `Ctrl + C`
 
+Depois execute o commando a seguir para limpar:
+```
+make clean
+```
 
 ## Abaixo está alguns Gráficos sobre esse trabalho.
 

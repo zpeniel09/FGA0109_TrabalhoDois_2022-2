@@ -1,23 +1,28 @@
-CC = gcc
-LDFLAGS = -lwiringPi
-BLDDIR = .
-INCDIR = $(BLDDIR)/inc
-SRCDIR = $(BLDDIR)/src
-OBJDIR = $(BLDDIR)/obj
-CFLAGS = -c -w -I$(INCDIR)
-EXCLUDE_FILES = inc/bme280.h inc/bme280_defs.h src/bme280.c
-SRC = $(filter-out $(EXCLUDE_FILES), $(SRCDIR)/*.c)
-OBJ = $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRC))
-EXE = bin/bin
+# Executavel
+BINFOLDER := bin/
+# .h
+INCFOLDER := inc/
+# .c
+SRCFOLDER := src/
+# .o
+OBJFOLDER := obj/
+CC := gcc
+CFLAGS := -std=c99
+LINKFLAGS := -lm -lwiringPi
+SRCFILES := $(wildcard src/*.c)
 
-all: clean $(EXE) 
-    
-$(EXE): $(OBJ) 
-	$(CC) $(LDFLAGS) $(OBJDIR)/*.o -o $@ 
+all: $(SRCFILES:src/%.c=obj/%.o)
+	$(CC) $(CFLAGS) obj/*.o -o bin/prog $(LINKFLAGS)
 
-$(OBJDIR)/%.o : $(SRCDIR)/%.c
-	@mkdir -p $(@D)
-	$(CC) $(CFLAGS) $< -o $@
+obj/%.o: src/%.c
+	$(CC) $(CFLAGS) -c $< -o $@ -I./inc $(LINKFLAGS)
 
+run: bin/prog
+	bin/prog
+
+.PHONY: clean
 clean:
-	-rm -f $(OBJDIR)/*.o $(EXE)
+	rm -rf obj/*
+	rm -rf bin/*
+	touch obj/.gitkeep
+	touch bin/.gitkeep
